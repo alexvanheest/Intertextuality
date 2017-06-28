@@ -9,12 +9,12 @@ class Wordlists:
 
     def __init__(self):
         self.wordlists = ["../wordlists/rapper-list.txt",
-                         "../wordlists/cleaning-products.txt",
-                         "../wordlists/food-brands.txt",
-                         "../wordlists/sports.txt",
-                         "../wordlists/us-cities.txt",
-                         "../wordlists/brands.txt",
-                         "../wordlists/alcohol.txt"
+                          "../wordlists/cleaning-products.txt",
+                          "../wordlists/food-brands.txt",
+                          "../wordlists/sports.txt",
+                          "../wordlists/us-cities.txt",
+                          "../wordlists/brands.txt",
+                          "../wordlists/alcohol.txt"
                          ]
         self.wl_dict = {}
 
