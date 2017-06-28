@@ -1,0 +1,7 @@
+#
+####### Intertextuality Requirements #######
+#
+###### Requirements without Version Specifiers ######
+pygtrie
+numpy
+#

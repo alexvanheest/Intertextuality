@@ -1,7 +1,7 @@
 import pygtrie
 from wordlists import Wordlists
 import matchers
-from PyLyrics import PyLyrics
+import lyric_word_lists
 
 
 # This file will provide a series of methods based on the matchers and wordlists in this directory.
@@ -23,21 +23,11 @@ def build_trie_from_wordlists():
     return big_trie
 
 
-# Method to convert a text file with lyrics into a list of words, removing unneeded punctuation.
-def build_lyric_list(filepath):
-    with open(filepath) as f:
-        lyric_word_list = f.read()\
-            .replace("[", "").replace("]", "").replace(":", "").replace("\n", " ") \
-            .replace("?", "").replace(",", "").replace(".", "").replace("!", "") \
-            .replace("\"", "").replace("'", "").replace("-", "").split(" ")
-    return lyric_word_list
-
-
 # Method that takes two filepaths to lyrics and uses trie comparison to find and print similar phrases
 def compare_songs(lyricpath1, lyricpath2):
     # Build lists
-    path1_list = build_lyric_list(lyricpath1)
-    path2_list = build_lyric_list(lyricpath2)
+    path1_list = lyric_word_lists.build_lyric_list(lyricpath1)
+    path2_list = lyric_word_lists.build_lyric_list(lyricpath2)
 
     # Build a trie for path1
     path1_trie = matchers.build_trie_range(4, 14, path1_list)
@@ -60,7 +50,7 @@ def compare_songs(lyricpath1, lyricpath2):
 
 # Method that compares a song at a given path to a given trie
 def compare_song_to_trie(lyricpath, big_trie):
-    final_dict = matchers.match_with_trie(1, 10, build_lyric_list(lyricpath), big_trie)
+    final_dict = matchers.match_with_trie(1, 10, lyric_word_lists.build_lyric_list(lyricpath), big_trie)
     wl = Wordlists()
     wordlist_dict = wl.get_wordlist_dictionary()
     print "\n\nLyric Comparison to Wordlists:"
@@ -68,20 +58,21 @@ def compare_song_to_trie(lyricpath, big_trie):
         print wordlist_dict[val] + ":\t\t" + key
 
 
-# Method to build lyric list with an artist and song title instead of local lyrics
-def build_lyric_list_wiki(artist, song):
-    lyrics_as_string = PyLyrics.getLyrics(artist, song)
-    lyric_word_list = lyrics_as_string.replace("[", "").replace("]", "").replace(":", "").replace("\n", " ") \
-            .replace("?", "").replace(",", "").replace(".", "").replace("!", "") \
-            .replace("\"", "").replace("'", "").replace("-", "").split(" ")
-    return lyric_word_list
+# Method that compares a song at a given path to a given trie
+def compare_song_to_trie_wiki(artist, song, big_trie):
+    final_dict = matchers.match_with_trie(1, 10, lyric_word_lists.build_lyric_list_wiki(artist, song), big_trie)
+    wl = Wordlists()
+    wordlist_dict = wl.get_wordlist_dictionary()
+    print "\n\nLyric Comparison to Wordlists:"
+    for key, val in final_dict.iteritems():
+        print wordlist_dict[val] + ":\t\t" + key
 
 
 # Method that compares songs using artist/song instead of local text files
 def compare_songs_wiki(artist1, song1, artist2, song2):
     # Build lists
-    path1_list = build_lyric_list_wiki(artist1, song1)
-    path2_list = build_lyric_list_wiki(artist2, song2)
+    path1_list = lyric_word_lists.build_lyric_list_wiki(artist1, song1)
+    path2_list = lyric_word_lists.build_lyric_list_wiki(artist2, song2)
 
     # Build a trie for path1
     path1_trie = matchers.build_trie_range(4, 14, path1_list)
