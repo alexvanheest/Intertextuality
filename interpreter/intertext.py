@@ -1,6 +1,7 @@
 import pygtrie
 from wordlists import Wordlists
 import matchers
+from PyLyrics import PyLyrics
 
 
 # This file will provide a series of methods based on the matchers and wordlists in this directory.
@@ -65,3 +66,37 @@ def compare_song_to_trie(lyricpath, big_trie):
     print "\n\nLyric Comparison to Wordlists:"
     for key, val in final_dict.iteritems():
         print wordlist_dict[val] + ":\t\t" + key
+
+
+# Method to build lyric list with an artist and song title instead of local lyrics
+def build_lyric_list_wiki(artist, song):
+    lyrics_as_string = PyLyrics.getLyrics(artist, song)
+    lyric_word_list = lyrics_as_string.replace("[", "").replace("]", "").replace(":", "").replace("\n", " ") \
+            .replace("?", "").replace(",", "").replace(".", "").replace("!", "") \
+            .replace("\"", "").replace("'", "").replace("-", "").split(" ")
+    return lyric_word_list
+
+
+# Method that compares songs using artist/song instead of local text files
+def compare_songs_wiki(artist1, song1, artist2, song2):
+    # Build lists
+    path1_list = build_lyric_list_wiki(artist1, song1)
+    path2_list = build_lyric_list_wiki(artist2, song2)
+
+    # Build a trie for path1
+    path1_trie = matchers.build_trie_range(4, 14, path1_list)
+
+    # Compare the lyrics
+    comparison_dict = matchers.match_with_trie(4, 14, path2_list, path1_trie)
+
+    # Display non-unique results
+    print "\nComplete Results:"
+    for key, val in comparison_dict.iteritems():
+        print key
+
+    # Display unique results
+    print "\n\nUnique Results:"
+    unique_list = comparison_dict.keys()
+    unique_list = matchers.condense(unique_list)
+    for item in unique_list:
+        print item

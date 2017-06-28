@@ -198,6 +198,6 @@ def build_trie_by_length(length, word_list, final_trie):
 def build_trie_range(min_length, max_length, word_list):
     final_trie = pygtrie.StringTrie()
     for x in range(min_length, max_length+1):
-        print "Building trie for phrases of length " + str(x)
+        #print "Building trie for phrases of length " + str(x)
         final_trie = build_trie_by_length(x, word_list, final_trie)
     return final_trie

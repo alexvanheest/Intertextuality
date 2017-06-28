@@ -62,7 +62,7 @@ class PyLyrics:
     @staticmethod
     def getAlbums(singer):
         singer = singer.replace(' ', '_')
-        s = BeautifulSoup(requests.get('http://lyrics.wikia.com/{0}'.format(singer)).text)
+        s = BeautifulSoup(requests.get('http://lyrics.wikia.com/{0}'.format(singer)).text, "html.parser")
         spans = s.findAll('span', {'class': 'mw-headline'})
 
         als = []
@@ -96,7 +96,7 @@ class PyLyrics:
         singer = singer.replace(' ', '_')
         song = song.replace(' ', '_')
         r = requests.get('http://lyrics.wikia.com/{0}:{1}'.format(singer, song))
-        s = BeautifulSoup(r.text)
+        s = BeautifulSoup(r.text, "html.parser")
         # Get main lyrics holder
         lyrics = s.find("div", {'class': 'lyricbox'})
         if lyrics is None:
