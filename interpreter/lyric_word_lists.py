@@ -4,6 +4,8 @@ from nltk import pos_tag, word_tokenize
 # Contains all methods to do with lyric word lists.
 # To clarify, when I use the phrase "lyric word lists," I'm referring to something very specific:
 # it's a Python list of words separated by spaces from the lyrics with punctuation removed.
+# I'd make this a class, but it's just a list, so I think that'd be overkill.
+# However, if we turned this into a class, we can store the words as a list and the lines as a list... hmmm...
 
 
 # Method to convert a text file with lyrics into a list of words, removing unneeded punctuation.

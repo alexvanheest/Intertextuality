@@ -5,4 +5,5 @@
 pygtrie
 numpy
 nltk
+sklearn
 #

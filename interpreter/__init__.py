@@ -2,6 +2,26 @@ import matchers
 from wordlists import Wordlists
 import intertext
 from lyric_word_lists import build_lyric_list_wiki_context
+import sys
+from multilabel_classifier import mlc
+
+# Test CSV loading with mlc
+mymlc = mlc()
+
+# Test if partial fit is working properly:
+x_test = ['Malcolm',
+          'Coltrane',
+          'My man',
+          'Ye',
+          'Damn']
+
+predictions = mymlc.load_fit_predict("../csv/test-data.json", x_test)
+predictions = mymlc.mlb.inverse_transform(predictions)
+for x,y in zip(x_test, predictions):
+    print str(x) + ":\t" + str(y)
+
+print "Ok -- 1"
+sys.exit(0)
 
 
 # Build trie from saved wordlists:
@@ -30,7 +50,10 @@ context_list = build_lyric_list_wiki_context("Nas", "Halftime")
 # TODO: For database additions, maybe offer a supervised / unsupervised mode?
 # In supervised mode, it'll present each reference and check with user to see if it should be
 # added. In unsupervised mode, it'll just auto-add things.
+# TODO: Either write a method to recreate a line of lyrics or make LWL a datatype and have lines as a dict.
 # TODO: Add testing suite to project.
 # TODO: Look into mapping out themes across songs or albums.
 # We could approach this once we have our categorization technique figured out.
 # TODO: Look into other NLP projects to see what we can work into this project.
+# TODO: Develop my own trie that can accommodate Lev-sim searches?
+# Really big task, not unless absolutely necessary.
